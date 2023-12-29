@@ -1,0 +1,50 @@
+# 用jupyter开发的方法
+
+## 概述
+
+创建一个单独的conda环境安装jupyter,然后每个开发的项目独立的env安装为kernel.
+这样每个py项目都能用notebook进行一些实验.
+
+## 创建单独的notebook环境
+
+创建 nb_environment.yml , 然后 conda env create -f nb_environment.yml
+```
+name: nb
+dependencies:
+  - python=3.10
+  - pip
+  - lz4
+
+  # jupyter
+  - jupyterlab
+  - jupyterlab-mathjax3
+  - nodejs=16
+  - mscorefonts
+  - et_xmlfile
+  - widgetsnbextension
+  - ipywidgets
+  - ipympl
+  - jupyter-resource-usage
+  - dtale
+```
+
+## 每个项目一个env
+
+conda env create -n helloworld
+
+## 把当前项目的env安装为kernel
+conda activate helloworld
+pip install -e .
+
+首先需要安装依赖
+pip install ipykernel
+然后
+python -m ipykernel install --user --name hellow
+
+## 在nb环境调试helloworld项目
+conda activate nb
+jupyter lab
+然后选择 hellow 内核新建notebook
+
+## 删除内核
+jupyter kernelspec uninstall hellow
